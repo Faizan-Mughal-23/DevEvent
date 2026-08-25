@@ -5,6 +5,8 @@ import { getSimilarEventBySlug } from "@/lib/actions/event.actions";
 import { IEvent } from "@/database";
 import EventCard from "@/components/EventCard";
 
+export const instant = false;
+
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const EventDetailsItem = ({ icon, alt, label }: { icon: string; alt: string; label: string }) => (
@@ -41,10 +43,15 @@ const EventDetailsPage = async ({
 }: {
   params: Promise<{ slug: string }>;
 }) => {
+
+
   const { slug } = await params;
-  const request = await fetch(`${BASE_URL}/api/events/${slug}`, { cache: 'no-cache' });
-  const { event: { description, image, overview, date, time, location, mode, agenda, organizer, audience, tags } } = await request.json();
-  if (!description) return notFound();
+  const request = await fetch(`${BASE_URL}/api/events/${slug}`);
+  const { event } = await request.json();
+
+  if (!event || !event.description) return notFound();
+
+  const { _id, description, image, overview, date, time, location, mode, agenda, organizer, audience, tags } = event;
   const bookings = 10;
   const similarEvents: IEvent[] = await getSimilarEventBySlug(slug)
   return (
@@ -106,7 +113,7 @@ const EventDetailsPage = async ({
                 Be the first tp book your spot!
               </p>
             )}
-            <BookEvent />
+            <BookEvent eventId={event._id} slug={slug} />
           </div>
 
 
