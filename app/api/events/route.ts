@@ -1,5 +1,5 @@
 import connectDB from "@/lib/mongodb";
-import { v2 as cloudinary, UploadApiResponse } from "cloudinary";
+import { v2 as cloudinary } from "cloudinary";
 import { NextRequest, NextResponse } from "next/server";
 import Event from "@/database/event.model";
 
@@ -25,8 +25,8 @@ export async function POST(req: NextRequest) {
         { status: 400 },
       );
     // 
-    let tags = JSON.parse(formData.get('tags') as string)
-    let agenda = JSON.parse(formData.get('agenda') as string)
+    const tags = JSON.parse(formData.get('tags') as string)
+    const agenda = JSON.parse(formData.get('agenda') as string)
 
 
 
