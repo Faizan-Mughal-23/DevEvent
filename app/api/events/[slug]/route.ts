@@ -11,7 +11,7 @@ type RouteParams = {
 };
 
 /**
- * GET /api/events/[slug]
+ * GET /api/events/[slug]dynamic-route
  * Fetches a single events by its slug
  */
 export async function GET(
